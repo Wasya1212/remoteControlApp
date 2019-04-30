@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
+</head>
+<body>
+  <object type="application/x-shockwave-flash" data="http://localhost:8000/live/STREAM_NAME.flv" width="400" height="300">
+     <param name="movie" value="player_flv_maxi.swf" />
+     <param name="FlashVars" value="flv=http://localhost:8000/live/STREAM_NAME.flv" />
+</object>
+  <video id="videoElement" width="600"></video>
+  <script>
+      if (flvjs.isSupported()) {
+          var videoElement = document.getElementById('videoElement');
+          var flvPlayer = flvjs.createPlayer({
+              type: 'flv',
+              url: 'ws://localhost:8000/live/STREAM_NAME.flv'
+          });
+          flvPlayer.attachMediaElement(videoElement);
+          flvPlayer.load();
+          flvPlayer.play();
+      }
+  </script>
+</body>
+</html>
