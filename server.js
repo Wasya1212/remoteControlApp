@@ -6,7 +6,7 @@ const robot = require("robotjs");
 
 var app = require('express')();
 var http = require('http').Server(app);
-// var io = require('socket.io')(http);
+var io = require('socket.io')(http);
 
 
 // console.log(__dirname + '/ffmpeg/bin/ffmpeg.exe')
@@ -29,38 +29,38 @@ const config = {
 
 const nms = new NodeMediaServer(config)
 
-// nms.run();
+nms.run();
 
 const spawn = require('child_process').spawn;
 const execFile = require('child_process').execFile;
 
 // setTimeout(() => {
-  // const command = execFile(__dirname + '/ffmpeg/bin/ffmpeg.exe', [
-  //   '-f', 'gdigrab',
-  //   '-i', 'desktop',
-  //   // '-f', 'dshow',
-  //   // '-i', 'video=\"screen-capture-recorder\"',
-  //   '-preset', 'ultrafast',
-  //   '-vcodec', 'libx264',
-  //   '-tune', 'zerolatency',
-  //   '-b', '900k',
-  //   '-c:a', 'aac',
-  //   '-ar', '44100',
-  //   '-f', 'flv',
-  //   'rtmp://localhost/live/STREAM_NAME'
-  // ]);
-  //
-  // command.stdout.on('data', (data) => {
-  //   console.log(`stdout: ${data}`);
-  // });
-  //
-  // command.stderr.on('data', (data) => {
-  //   console.log(`stderr: ${data}`);
-  // });
-  //
-  // command.on('close', (code) => {
-  //   console.log(`child process exited with code ${code}`);
-  // });
+//   const command = execFile(__dirname + '/ffmpeg/bin/ffmpeg.exe', [
+//     '-f', 'gdigrab',
+//     '-i', 'desktop',
+//     // '-f', 'dshow',
+//     // '-i', 'video=\"screen-capture-recorder\"',
+//     '-preset', 'ultrafast',
+//     '-vcodec', 'libx264',
+//     '-tune', 'zerolatency',
+//     '-b', '900k',
+//     '-c:a', 'aac',
+//     '-ar', '44100',
+//     '-f', 'flv',
+//     'rtmp://localhost/live/STREAM_NAME'
+//   ]);
+//
+//   command.stdout.on('data', (data) => {
+//     console.log(`stdout: ${data}`);
+//   });
+//
+//   command.stderr.on('data', (data) => {
+//     console.log(`stderr: ${data}`);
+//   });
+//
+//   command.on('close', (code) => {
+//     console.log(`child process exited with code ${code}`);
+//   });
 // }, 3000)
 
 
@@ -102,15 +102,15 @@ const execFile = require('child_process').execFile;
 //   command.setFfmpegPath(__dirname + '/ffmpeg/bin/ffmpeg.exe');
 //   command.setFfprobePath(__dirname + '/ffmpeg/bin/ffprobe.exe');
 
-
+//
 // const ffstream = command.pipe();
 // ffstream.on('data', function(chunk) {
 //   console.log('ffmpeg just wrote ' + chunk.length + ' bytes');
 // });
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/socket.html');
-});
+// app.get('/', function(req, res){
+//   res.sendFile(__dirname + '/socket.html');
+// });
 
 // io.on('connection', function(socket){
 //   console.log('an user connected');
@@ -124,10 +124,10 @@ app.get('/', function(req, res){
 //   });
 // });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
-});
-
+// http.listen(3000, function(){
+//   console.log('listening on *:3000');
+// });
+//
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({
   port: 8080,
@@ -152,10 +152,11 @@ const wss = new WebSocket.Server({
   }
 });
 
-robot.setMouseDelay(2);
+robot.setMouseDelay(10);
 
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
+      console.log(message)
         const { type: messageType, payload} = JSON.parse(message);
 
         console.log("type", messageType);
@@ -168,23 +169,23 @@ wss.on('connection', function connection(ws) {
 
           switch (payload.direction) {
             case 'left': {
-              for (let i = 0; i < 300; i++) {
-                robot.moveMouse(x--, y)
+              for (let i = 0; i < 10; i++) {
+                robot.moveMouse(x -= 4, y)
               }
             } break;
             case 'right': {
-              for (let i = 0; i < 300; i++) {
-                robot.moveMouse(x++, y)
+              for (let i = 0; i < 10; i++) {
+                robot.moveMouse(x += 4, y)
               }
             } break;
             case 'top': {
-              for (let i = 0; i < 300; i++) {
-                robot.moveMouse(x, y--)
+              for (let i = 0; i < 10; i++) {
+                robot.moveMouse(x, y -= 4)
               }
             } break;
             case 'bottom': {
-              for (let i = 0; i < 300; i++) {
-                robot.moveMouse(x, y++)
+              for (let i = 0; i < 10; i++) {
+                robot.moveMouse(x, y += 4)
               }
             } break;
             default: {
