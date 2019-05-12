@@ -113,16 +113,14 @@ app.on('activate', () => {
 
 function createWindow () {
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 300,
+    height: 500,
     webPreferences: {
       nodeIntegration: true
     }
   })
 
   win.loadFile('screens/index.html')
-
-  win.webContents.openDevTools()
 
   win.on('closed', () => {
     win = null
